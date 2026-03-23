@@ -1,0 +1,66 @@
+PROBLEMA window_join
+Programul citeste initial variabila window, dupa care intra intr-o bucla in care citeste perechile (timestamp, valoare) 
+pe care le retine in doi vectori.
+Bucla de citire se termina atunci cand intalnim perechea (0, 0).
+Apoi, cu 2 instructiuni for, se compara elementele asemenea unei sortari prin interschimbare. 
+Daca cele doua valori din vectorul time[] respecta conditia ca diferenta lor sa fie mai mica decat window, 
+se verifica daca cele doua numere sunt nenule, pentru a evita ultima pereche citita si se afiseaza cmmmc si cmmmdc pentru ele.
+Pentru a calcula cmmmc si cmmdc am folosit cate o functie separata. 
+Cum vectorul time este deja sortat, atunci cand diferenta dintre doua elemente ale sale depaseste valoarea window, 
+se iese din instructiunea repetitiva, nemaiputandu-se gasi alta pereche care sa satisfaca conditia.
+Cmmmc si cmmdc se afiseaza in perechi, cu un spatiu intre ele si pe linii separate fiecare pereche.
+
+PROBLEMA akari
+Programul citeste numarul o, care reprezinta optiunea, apoi numerele n si m si matricea grid.
+Se apeleaza functia complete() care modifica matricea data adaugand 'x' in fiecare celula care este luminata de un bec 
+situat pe aceeasi linie sau coloana, pana la intalnirea unei celule negre sau a unui alt bec.
+Pentru optiunea 1:
+-se parcurge matricea
+-la intalnirea unei celule negre numerotate, se compara rezultatul functiei verify pentru celula respectiva cu numarul de pe celula
+-functia verify numara cate becuri sunt vecine cu celula pentru care se apeleaza functia
+-daca cele doua numere sunt egale, inseamna ca nu mai putem pune alte becuri in jurul celulei negre,
+deci adaugam 'x' in celulele fara becuri (cu ajutorul functiei complete_missing)
+-astfel, avem completata matricea conform cerintei pentru optiunea 1
+Pentru optiunea 2:
+-se parcurge matricea
+-la intalnirea unei celule numerotate, comparam din nou rezultatul functiei verify cu numarul celulei 
+-daca primul este mai mare, inseamna ca avem mai multe becuri in jurul celulei respective decat este permis, deci gridul va fi invalid
+-pentru a verifica existenta mai multor becuri pe aceeasi linie/coloana se foloseste functia check_lights
+-aceasta parcurge matricea pana la intalnirea unui bec, caz in care creste contorul count
+-la intalnirea unei celule negre, contorul se reinitializeaza cu 0
+-daca contorul creste mai mare decat 1, inseamna ca au fost gasite mai multe becuri pe aceeasi linie/coloana fara o celula neagra intre ele,
+deci gridul va fi invalid
+-functia returneaza 1 daca se respecta conditia si 0 in caz contrar
+-se parcurge din nou matricea
+-la intalnirea unei celule numerotate, declaram variabilele:
+    -needed, care reprezinta numarul celulei, deci numarul de becuri adiacente necesare
+    -already, care reprezinta numarul de becuri ce sunt deja plasate in jurul celulei numerotate
+    -free, care reprezinta numarul de celule goale, ce ar putea fi completate ulterior in joc.
+-daca suma dintre free si already este mai mica decat needed, 
+inseamna ca nu avem destule spatii in care sa mai punem becuri pentru rezolvarea jocului, deci gridul este invalid
+-in final, se verifica valoarea variabilei ok, in care a fost marcata orice abatere de la regulile jocului, 
+-se afiseaza, dupa caz, "zero" sau "ichi"
+
+PROBLEMA helicopters
+Programul incepe cu citirea variabilelor n, m si a matricei a, dupa care numarul de elicoptere, k
+Intra intr-o instructiune care se repeta de k ori, pentru fiecare elicopter
+Dupa citirea coordonatelor, se apeleaza functia pozitie_gresita
+Aceasta verifica daca varfurile ipotenuzei se afla pe aceeasi linie sau aceeasi coloana, 
+caz in care elicopterul a aterizat gresit, deci returneaza 0
+Daca a aterizat gresit, retine indicele elicopterului in vectorul wrong_pos, pentru afisarea ulterioara
+In caz contrar, inseamna ca elicopterul a aterizat corect, deci apeleaza functia valid
+Aceasta produce urmatoarele instructiuni:
+-ordoneaza perechea de coordonate in functie de liniile pe care se afla varfurile ipotenuzei
+-se imparte in doua cazuri, s=1 si s=-1, si apoi fiecare caz in inca 2: c1<c2 si c1>c2
+-pentru fiecare caz, se parcurge diferit triunghiul format
+-la parcurgerea triunghiului, se numara cate celule de 0 si cate celule de 1 sunt
+-la final, se verifica daca count_0 > count_1, ceea ce inseamna ca elicopterul este valid, dar a aterizat gresit, functia returnand 1
+-se verifica daca avem 0 celule 0, caz in care returneaza 0
+-daca nu se afla in niciun caz de mai sus, functia returneaza 2, dar in cerinta actuala nu va fi abordat acest rezultat
+Daca rezultatul functiei valid este 1, incrementeaza variabila hel_valide
+Altfel, daca rezultatul functiei este 0, retine indicele elicopterului in vectorul aterizare_gresita
+La final, se afiseaza:
+-mesajul cerut pentru elicopterele pozitionate gresit, 
+-numarul de elicoptere care nu afecteaza niciun patratel, 
+-numarul de elicoptere care au aterizat gresit si indicii acestora pe urmatoarea linie
+
